@@ -1,8 +1,9 @@
 import os
 
-
+# What do you get if you multiply your final horizontal position by your final depth?
 def calculate_position(moves):
-    """helloda"""
+    """Calculates position by moving forward in horizontal and up/down in depth.
+    Calculates final position multiplying depth with horizontal."""
     depth = 0
     horizontal = 0
     for m in moves:
@@ -17,9 +18,11 @@ def calculate_position(moves):
 
     return depth * horizontal
 
-
+# What do you get if you multiply your final horizontal position by your final depth?
 def calculate_position_aim(moves):
-    """helloda"""
+    """Adds new aim concept to previous position calculation.
+    Calculates position by modifying aim with up/down and moves with forward taking
+    increment in horizontal and aim multiplied by increment in depth."""
     depth = 0
     horizontal = 0
     aim = 0
@@ -35,7 +38,6 @@ def calculate_position_aim(moves):
             aim += inc
 
     return depth * horizontal
-
 
 if __name__ == "__main__":
     # Get path from actual dirname
