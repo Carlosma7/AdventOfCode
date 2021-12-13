@@ -1,2 +1,2 @@
-# AdventOfCode-2021
-Advent of Code 2021 solutions coded in Python.
+# AdventOfCode
+Advent of Code solutions coded in Python.
