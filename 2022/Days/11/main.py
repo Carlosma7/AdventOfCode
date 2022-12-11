@@ -4,17 +4,28 @@ import os
 from math import floor, prod
 
 class Monkey:
-    """Definition here"""
+    """Class that represents a monkey and its behaviour. It controlls the
+    the play of a monkey and the adding of items.
+    """
 
-    def __init__(self, operation, items, test, true, false):
+    def __init__(self, operation, items, test, new_monkey):
+        """Init of monkey that gets all parameters to represent it."""
         self.__operation = operation
         self.__items = items
         self.__test = test
-        self.__true = true
-        self.__false = false
+        self.__true = new_monkey[0]
+        self.__false = new_monkey[1]
         self.__inspected = 0
 
     def play(self, relief=True):
+        """Given a relief or not, it reproduces the behaviour of a monkey, consisting on:
+        For each item:
+        1. Checks item and computes stress on it.
+        2. If relief, reduces stress by dividing it by 3.
+        3. Checks to which monkey it should send the item to.
+
+        Returns the monkey moves.
+        """
         monkey_moves = []
         for item in self.__items:
             self.__inspected += 1
@@ -37,14 +48,19 @@ class Monkey:
         return monkey_moves
 
     def add(self, item):
+        """Adds a new item to the ones that the monkey has."""
         self.__items.append(item)
 
     def get_inspected(self):
+        """Getter method for monkey total number of inspected items."""
         return self.__inspected
-    def get_items(self):
-        return self.__items
 
 def read_monkeys(file):
+    """Given a file it reads all the monkeys on it and creates a list
+    of them.
+
+    Returns a list of monkeys.
+    """
     monkeys = []
     for index, line in enumerate(file):
         if 'Monkey' in line:
@@ -52,14 +68,20 @@ def read_monkeys(file):
             items = [int(item) for item in items]
             operation = file[index+2].split('=')[1]
             test = int(file[index+3].split('by')[1])
-            true = int(file[index+4].split('monkey')[1])
-            false = int(file[index+5].split('monkey')[1])
-            monkeys.append(Monkey(operation, items, test, true, false))
+            new_monkey = []
+            new_monkey.append(int(file[index+4].split('monkey')[1]))
+            new_monkey.append(int(file[index+5].split('monkey')[1]))
+            monkeys.append(Monkey(operation, items, test, new_monkey))
     return monkeys
 
 def get_monkey_business(monkeys):
+    """Given a list of monkeys, reproduces the behaviour of them in 20 rounds
+    and computes the monkey business for all of them. Considers relief.
+
+    Returns the prod of the two most active monkey business.
+    """
     for _ in range(20):
-        for i, monkey in enumerate(monkeys):
+        for monkey in monkeys:
             monkey_moves = monkey.play()
             for mov in monkey_moves:
                 monkeys[mov[0]].add(mov[1])
@@ -70,8 +92,13 @@ def get_monkey_business(monkeys):
     print(prod(two_most))
 
 def get_monkey_business_no_relief(monkeys):
+    """Given a list of monkeys, reproduces the behaviour of them in 10000 rounds
+    and computes the monkey business for all of them. Does not consider relief.
+
+    Returns the prod of the two most active monkey business.
+    """
     for _ in range(10000):
-        for i, monkey in enumerate(monkeys):
+        for monkey in monkeys:
             monkey_moves = monkey.play(False)
             for mov in monkey_moves:
                 monkeys[mov[0]].add(mov[1])
