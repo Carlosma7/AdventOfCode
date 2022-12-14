@@ -1,47 +1,7 @@
 """Advent of Code 2022 - Day 12. Part 2."""
 
 import os
-
-
-class Node:
-    """Node class that controls all the info related to a node in
-    a graph.
-    """
-    def __init__(self, value, x_value, y_value):
-        """Constructor method for node."""
-        self.__value = value
-        self.__x = x_value
-        self.__y = y_value
-        self.__parent = None
-        self.__neighbors = []
-
-    def get_value(self):
-        """Getter for value of node."""
-        return self.__value
-
-    def set_parent(self, parent):
-        """Setter for value of parent."""
-        self.__parent = parent
-
-    def get_parent(self):
-        """Getter for value of parent."""
-        return self.__parent
-
-    def set_neighbors(self, neighbors):
-        """Setter for value of neighbors."""
-        self.__neighbors = neighbors
-
-    def get_neighbors(self):
-        """Getter for value of neighbors."""
-        return self.__neighbors
-
-    def get_pos(self):
-        """Getter for coordinates."""
-        return [self.__x, self.__y]
-
-    def __eq__(self, other):
-        """Equals method implementation, comparing just coordinates."""
-        return self.get_pos() == other.get_pos()
+from functions import read_graph, retrieve_path
 
 def breadth_first_search(origin_node, dest_value):
     """Implementation of breadth first search algorithm."""
@@ -61,14 +21,7 @@ def breadth_first_search(origin_node, dest_value):
                 queue.clear()
 
     # Retrieve the steps generated
-    steps = []
-    current_node = visited[-1]
-    while current_node != origin_node:
-        steps.append(current_node)
-        current_node = current_node.get_parent()
-
-    # Get total steps
-    print(len(steps))
+    retrieve_path(visited, origin_node)
 
 
 def check_origin_neighbors(elem, origin, graph, index_i, index_j):
@@ -99,14 +52,7 @@ def read_map(file, origin, destination):
     """Given a file it reads a map, also sets the origin and destination and
     finally it applies breadth first search algorithm.
     """
-    graph = []
-    for line in file:
-        row = []
-        line_list = []
-        line_list[:0] = line
-        for elem in line_list:
-            row.append(Node(elem, len(graph), len(row)))
-        graph.append(row)
+    graph = read_graph(file)
 
     for index_i, row in enumerate(graph):
         for index_j, elem in enumerate(row):
