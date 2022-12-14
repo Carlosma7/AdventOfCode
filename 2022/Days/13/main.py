@@ -6,7 +6,7 @@ from math import prod
 import functools
 
 
-def compare_packets(left, right) -> bool | str:
+def compare_packets(left, right):
     """Given two packets, compares them and checks whether left one is lower than
     right one.
 
